@@ -58,7 +58,7 @@ MTU=
 PERSISTENT_KEEPALIVE=
 ```
 
-> **Note:** If you need extra data than the above, you should add your variables in `main.py` too.
+> **Note**: If you need extra data than the above, you should add your variables in `main.py` too.
 
 ## Run
 
