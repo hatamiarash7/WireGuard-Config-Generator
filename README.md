@@ -48,7 +48,7 @@ And also give private/other information as a `.env` file.
 }
 ```
 
-> **Note**: Array keys ( `grafana`, `other`, etc ) are optional and can be used to group IP addresses for you to read/edit better.
+> **Note**: Array keys ( `grafana`, `other`, etc ) are not important and can be used to group IP addresses for you to read/edit better.
 
 ### .env
 
