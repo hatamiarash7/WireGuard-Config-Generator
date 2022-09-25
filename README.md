@@ -69,7 +69,7 @@ PERSISTENT_KEEPALIVE=
 To generate config files for all endpoints, run:
 
 ```bash
-python main.py
+make run
 ```
 
 This script will create file(s) based on the given endpoints. In this example, it will create `Company-Server-1.conf` and `Company-Server-2.conf` files like this:
