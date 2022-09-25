@@ -1,6 +1,6 @@
 # WireGuard config generator
 
-This script will generate tunnel config files for WireGuard.
+This simple script will generate tunnel config files for WireGuard.
 
 ## How to use
 
@@ -84,6 +84,8 @@ Endpoint = wg-1.domain.xyz:1234
 AllowedIPs = 1.2.3.4/32, 5.6.7.8/32, ...
 PersistentKeepalive = <PERSISTENT_KEEPALIVE>
 ```
+
+Now, you can import all generated configs in WireGuard.
 
 ---
 
