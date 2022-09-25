@@ -1,20 +1,24 @@
-import environ
+"""
+Generate WireGuard tunnel configuration files from your data
+"""
+
 import json
+import environ
 
 env = environ.Env()
 environ.Env.read_env()
 
 # Load all IP addresses from the given file
 
-finalIps = []
+IPS = []
 
-with open('ip-list.json', 'r') as file:
+with open(file='ip-list.json', mode='r', encoding='UTF-8') as file:
     lists = json.load(file)
-    for list in lists:
-        for ip in lists[list]:
-            finalIps.append(ip)
+    for group in lists:
+        for ip in lists[group]:
+            IPS.append(ip)
 
-finalIps = ", ".join(map(str, finalIps))
+IPS = ", ".join(map(str, IPS))
 
 # Load other config options from .env file
 
@@ -26,16 +30,16 @@ PersistentKeepalive = env('PERSISTENT_KEEPALIVE')
 
 # Generate the config file for each endpoint
 
-with open('endpoints.json', 'r') as file:
+with open(file='endpoints.json', mode='r', encoding='UTF-8') as file:
     endpoints = json.load(file)
     for endpoint in endpoints:
-        with open(endpoint['name']+'.conf', 'w') as file:
+        with open(file=endpoint['name']+'.conf', mode='w', encoding='UTF-8') as file:
             file.write('[Interface]\n')
             file.write('PrivateKey = ' + PrivateKey + '\n')
             file.write('Address = ' + Address + '\n')
             file.write('MTU = ' + MTU + '\n\n')
             file.write('[Peer]\n')
             file.write('PublicKey = ' + PublicKey + '\n')
-            file.write('AllowedIPs = ' + finalIps + '\n')
+            file.write('AllowedIPs = ' + IPS + '\n')
             file.write('Endpoint = ' + endpoint['address'] + '\n')
             file.write('PersistentKeepalive = ' + PersistentKeepalive + '\n')
