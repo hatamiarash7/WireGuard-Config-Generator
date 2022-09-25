@@ -1,0 +1,6 @@
+.env
+*.pyc
+.vscode
+
+*.conf
+*.json
