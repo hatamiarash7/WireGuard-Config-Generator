@@ -1,6 +1,6 @@
 # WireGuard config generator
 
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) [![GitHub release](https://img.shields.io/github/release/hatamiarash7/WireGuard-Config-Generator.svg)](https://GitHub.com/hatamiarash7/WireGuard-Config-Generator/releases/)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) [![GitHub release](https://img.shields.io/github/release/hatamiarash7/WireGuard-Config-Generator.svg)](https://GitHub.com/hatamiarash7/WireGuard-Config-Generator/releases/) [![Pylint](https://github.com/hatamiarash7/WireGuard-Config-Generator/actions/workflows/pylint.yml/badge.svg)](https://github.com/hatamiarash7/WireGuard-Config-Generator/actions/workflows/pylint.yml)
 
 This simple script will generate tunnel config files for WireGuard.
 
