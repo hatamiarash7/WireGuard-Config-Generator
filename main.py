@@ -18,6 +18,10 @@ with open(file='ip-list.json', mode='r', encoding='UTF-8') as file:
         for ip in lists[group]:
             IPS.append(ip)
 
+# Make IPs list unique
+IPS = list(set(IPS))
+
+# Put all IPs in a string
 IPS = ", ".join(map(str, IPS))
 
 # Load other config options from .env file
