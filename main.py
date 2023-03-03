@@ -66,6 +66,8 @@ def generate_config(profile: dict) -> None:
 
 
 def main():
+    """The main function"""
+
     # Load endpoint data from JSON file
     with open('endpoints.json', 'r', encoding='UTF-8') as endpoints_file:
         endpoints = json.load(endpoints_file)
