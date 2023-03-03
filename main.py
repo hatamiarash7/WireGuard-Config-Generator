@@ -61,13 +61,18 @@ def generate_config(profile: dict) -> None:
         profile_file.write("[Peer]\n")
         profile_file.write(f"PublicKey = {env('PUBLIC_KEY')}\n")
         profile_file.write(f"AllowedIPs = {ips}\n")
-        profile_file.write(f"Endpoint = {endpoint['address']}\n")
+        profile_file.write(f"Endpoint = {profile['address']}\n")
         profile_file.write(f"PersistentKeepalive = {keepalive}\n")
 
 
-# Load endpoint data from JSON file
-with open('endpoints.json', 'r', encoding='UTF-8') as endpoints_file:
-    endpoints = json.load(endpoints_file)
-    # Generate a configuration file for each endpoint
-    for endpoint in endpoints:
-        generate_config(endpoint)
+def main():
+    # Load endpoint data from JSON file
+    with open('endpoints.json', 'r', encoding='UTF-8') as endpoints_file:
+        endpoints = json.load(endpoints_file)
+        # Generate a configuration file for each endpoint
+        for endpoint in endpoints:
+            generate_config(endpoint)
+
+
+if __name__ == '__main__':
+    main()
