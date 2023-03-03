@@ -4,46 +4,69 @@ Generate WireGuard tunnel configuration files from your data
 
 import json
 import environ
+from typing import List
 
+# Load environment variables from .env file
 env = environ.Env()
 environ.Env.read_env()
 
-# Load all IP addresses from the given file
 
-IPS = []
+def get_ips() -> List[str]:
+    """
+    Load the list of IP addresses from the `ip-list.json` file and return a list of unique IP addresses.
 
-with open(file='ip-list.json', mode='r', encoding='UTF-8') as file:
-    lists = json.load(file)
-    for group in lists:
-        for ip in lists[group]:
-            IPS.append(ip)
+    Returns:
+        A list of unique IP addresses.
+    """
+    with open('ip-list.json', 'r', encoding='UTF-8') as f:
+        ips = []
+        # Load IP addresses from JSON file
+        lists = json.load(f)
+        # Iterate over groups of IP addresses
+        for group in lists:
+            # Iterate over individual IP addresses
+            for ip in lists[group]:
+                ips.append(ip)
+        # Return a list of unique IP addresses
+        return list(set(ips))
 
-# Make IPs list unique
-IPS = list(set(IPS))
 
-# Put all IPs in a string
-IPS = ", ".join(map(str, IPS))
+def generate_config(endpoint: dict) -> None:
+    """
+    Generate a WireGuard configuration file for the specified endpoint.
 
-# Load other config options from .env file
+    Args:
+        endpoint: A dictionary containing the endpoint name and address.
 
-PrivateKey = env('PRIVATE_KEY')
-PublicKey = env('PUBLIC_KEY')
-Address = env('ADDRESS')
-MTU = env('MTU')
-PersistentKeepalive = env('PERSISTENT_KEEPALIVE')
+    Returns:
+        None
+    """
+    # Get the list of unique IP addresses
+    ips = ", ".join(map(str, get_ips()))
+    # Define the filename for the configuration file
+    filename = endpoint['name'] + '.conf'
+    # Get environment variables with default values
+    address = env('ADDRESS', default='10.0.0.1/24')
+    mtu = env('MTU', default='1420')
+    persistent_keepalive = env('PERSISTENT_KEEPALIVE', default='25')
+    # Write the configuration file
+    with open(filename, 'w', encoding='UTF-8') as f:
+        # Write the [Interface] section
+        f.write('[Interface]\n')
+        f.write('PrivateKey = {}\n'.format(env('PRIVATE_KEY')))
+        f.write('Address = {}\n'.format(address))
+        f.write('MTU = {}\n\n'.format(mtu))
+        # Write the [Peer] section
+        f.write('[Peer]\n')
+        f.write('PublicKey = {}\n'.format(env('PUBLIC_KEY')))
+        f.write('AllowedIPs = {}\n'.format(ips))
+        f.write('Endpoint = {}\n'.format(endpoint['address']))
+        f.write('PersistentKeepalive = {}\n'.format(persistent_keepalive))
 
-# Generate the config file for each endpoint
 
-with open(file='endpoints.json', mode='r', encoding='UTF-8') as file:
-    endpoints = json.load(file)
+# Load endpoint data from JSON file
+with open('endpoints.json', 'r', encoding='UTF-8') as f:
+    endpoints = json.load(f)
+    # Generate a configuration file for each endpoint
     for endpoint in endpoints:
-        with open(file=endpoint['name']+'.conf', mode='w', encoding='UTF-8') as file:
-            file.write('[Interface]\n')
-            file.write('PrivateKey = ' + PrivateKey + '\n')
-            file.write('Address = ' + Address + '\n')
-            file.write('MTU = ' + MTU + '\n\n')
-            file.write('[Peer]\n')
-            file.write('PublicKey = ' + PublicKey + '\n')
-            file.write('AllowedIPs = ' + IPS + '\n')
-            file.write('Endpoint = ' + endpoint['address'] + '\n')
-            file.write('PersistentKeepalive = ' + PersistentKeepalive + '\n')
+        generate_config(endpoint)
