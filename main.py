@@ -27,9 +27,7 @@ def get_ips() -> List[str]:
         for section in lists:
             # Iterate over individual IP addresses
             for endpoint_ip in lists[section]:
-                ips.extend([
-                    value for value in lists[section][endpoint_ip].values()
-                ])
+                ips.extend(list(lists[section][endpoint_ip].values()))
         # Return a list of unique IP addresses
         return list(set(ips))
 
