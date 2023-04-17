@@ -23,11 +23,8 @@ def get_ips() -> List[str]:
         ips = []
         # Load IP addresses from TOML file
         lists = toml.load(ip_list)
-        # Iterate over groups of IP addresses
-        for section in lists:
-            # Iterate over individual IP addresses
-            for endpoint_ip in lists[section]:
-                ips.extend(list(lists[section][endpoint_ip].values()))
+        # Iterate over list
+        ips = [value for section in lists for value in lists[section].values()]
         # Return a list of unique IP addresses
         return list(set(ips))
 
