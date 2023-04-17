@@ -29,13 +29,13 @@ def get_ips() -> List[str]:
         return list(set(ips))
 
 
-def generate_config(endpoint: str, address: str) -> None:
+def generate_config(name: str, endpoint: str) -> None:
     """
     Generate a WireGuard configuration file for the specified endpoint.
 
     Args:
-        endpoint: The endpoint's name.
-        address: The endpoint's address.
+        name: The endpoint's name.
+        endpoint: The endpoint's address.
 
     Returns:
         None
@@ -43,7 +43,7 @@ def generate_config(endpoint: str, address: str) -> None:
     # Get the list of unique IP addresses
     ips = ", ".join(map(str, get_ips()))
     # Define the filename for the configuration file
-    filename = endpoint + '.conf'
+    filename = name + '.conf'
     # Get environment variables with default values
     address = env('ADDRESS', default='10.0.0.1/24')
     mtu = env('MTU', default='1420')
@@ -59,7 +59,7 @@ def generate_config(endpoint: str, address: str) -> None:
         profile_file.write("[Peer]\n")
         profile_file.write(f"PublicKey = {env('PUBLIC_KEY')}\n")
         profile_file.write(f"AllowedIPs = {ips}\n")
-        profile_file.write(f"Endpoint = {address}\n")
+        profile_file.write(f"Endpoint = {endpoint}\n")
         profile_file.write(f"PersistentKeepalive = {keepalive}\n")
 
 
