@@ -8,49 +8,35 @@ This simple script will generate tunnel config files for WireGuard.
 
 You need to give two file contains your information:
 
-- `endpoints.json` : Contains the endpoints you want to connect to ( Name, Address ).
-- `ip-list.json` : Contains the IP addresses you want to use.
+- `endpoints.toml` : Contains the endpoints you want to connect to ( Name, Address ).
+- `ip-list.toml` : Contains the IP addresses you want to use.
 
 And also give private/other information as a `.env` file.
 
-### endpoints.json
+### endpoints.toml
 
-```json
-[
-  {
-    "name": "Company-Server-1",
-    "address": "wg-1.domain.xyz:1234"
-  },
-  {
-    "name": "Company-Server-2",
-    "address": "wg-2.domain.xyz:1234"
-  }
-]
+```toml
+Company-Server-1 = "wg-1.domain.xyz:1234"
+Company-Server-2 = "wg-2.domain.xyz:1234"
 ```
 
-### ip-list.json
+### ip-list.toml
 
-```json
-{
-  "k8s-cluster": [
-    "1.2.3.4/32", 
-    "5.6.7.8.9/32", 
-    "1.2.3.4/27"
-  ],
-  "grafana": [
-    "1.2.3.4/32", 
-    "5.6.7.8.9/32", 
-    "1.2.3.4/27"
-  ],
-  "other": [
-    "1.2.3.4/32", 
-    "5.6.7.8.9/32", 
-    "1.2.3.4/27"
-  ]
-}
+```toml
+[k8s]
+DC1 = "1.2.3.4/32"
+DC2 = "5.6.7.8.9/32"
+DC3 = "1.2.3.4/27"
+
+[monitoring]
+prometheus = "1.2.3.4/32"
+grafana = "5.6.7.8.9/32"
+
+[other]
+server1 = "1.2.3.4/32"
+server2 = "5.6.7.8.9/32"
+server3 = "1.2.3.4/27"
 ```
-
-> **Note**: Array keys ( `grafana`, `other`, etc ) are not important and can be used to group IP addresses for you to read/edit better.
 
 ### .env
 
